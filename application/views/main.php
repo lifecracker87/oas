@@ -25,6 +25,11 @@
         <script src="<?php echo base_url();?>public/assets/flaty/jquery.nicescroll.min.js"></script>
         <script src="<?php echo base_url();?>public/assets/bootstrap/js/bootstrap.min.js"></script>
         <script src="<?php echo base_url();?>public/assets/flaty/flaty.js"></script>
+        <script>
+            $(document).ready(function(){
+                backForward();
+            });
+        </script>
 
 
         <title>Member's Page</title>
@@ -90,7 +95,7 @@
             <div class="navbar-inner">
                 <div class="container-fluid">
                     <!-- BEGIN Brand -->
-                    <a href="staffhome.php" class="brand">
+                    <a href="/main/dashboard1" class="brand" data-ajax="ajax">
                         <small>
                             <i class="icon-home"></i>	
                             प्रधानमन्त्री तथा मन्त्रिपरिषद्को कार्यालय
@@ -283,7 +288,7 @@
 
 
                     <li>
-                        <a href="staffhome.php">
+                        <a href="/main/dashboard" data-ajax="ajax">
                             <i class="icon-dashboard"></i>
                             <span>Dashboard</span>
                         </a>
@@ -444,7 +449,7 @@
 
                         <!-- BEGIN Submenu -->
                         <ul class="submenu">
-                            <li><a href="javascript:navigates('../leftmenu/fileindex.php?linkid=101093&stat=1','scrollcontent');">View Problem</a></li>
+                            <li><a href="javascript:navigates('../leftmenu/fileindex.php?linkid=101093&stat=1','scrollcontent');" data-request-type="ajax">View Problem</a></li>
                             <li><a href="javascript:navigates('../leftmenu/fileindex.php?linkid=9910101&stat=1','scrollcontent');">जनशक्ति व्यवस्थापन</a></li>
                             <li><a href="javascript:navigates('../leftmenu/fileindex.php?linkid=9910103&stat=1','scrollcontent');">कर्मचारीको नाम राख्ने</a></li>
                             <li><a href="javascript:navigates('../leftmenu/fileindex.php?linkid=9910102&stat=1','scrollcontent');">कर्मचारीहरुको नाम </a></li>
@@ -498,6 +503,7 @@
 
         <!--page specific plugin scripts-->
         <script>
+            //for theming
             function getCookie(cname)
             {
                 var name = cname + "=";
@@ -548,9 +554,36 @@
             }
 
             $(".nice-scroll").getNiceScroll().resize();
-
-
-
+        </script>
+        <script>
+            $("a[data-ajax]").click(function(event){
+                event.preventDefault();
+                var urlPart = $(this).attr('href');
+                var furl=makeCiUrl(urlPart,'<?php echo base_url();?>');
+                loadContent(furl,'scrollcontent');
+                history.pushState(null,null,furl);
+                return false;
+            });
+            //for ajax requests of menu's
+            function makeCiUrl(part,baseUrl)
+            {
+                var url=null;
+                var currentLocation = $(location).attr('href');
+                //var urls = currentLocation.split(baseUrl);
+                url = baseUrl + "index.php" + part;
+                return url;
+            }
+            function loadContent(path,loaderdiv)
+            {
+                $('#'+loaderdiv).load(path);
+            }
+            function backForward()
+            {
+                $(window).bind('popstate',function()
+                {
+                   loadContent(location.pathname,'scrollcontent');
+                });
+            }
         </script>
 
     </body>
