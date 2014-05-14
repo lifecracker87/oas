@@ -21,6 +21,7 @@ class Welcome extends CI_Controller {
 	{
 		$this->load->view('welcome_message');
 	}
+//this loads the welcome message that is a default page after installation
 }
 
 /* End of file welcome.php */
