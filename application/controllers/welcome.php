@@ -22,6 +22,7 @@ class Welcome extends CI_Controller {
 		$this->load->view('welcome_message');
 	}
 //this loads the welcome message that is a default page after installation
+//this is for 2nd test for git branching tests
 }
 
 /* End of file welcome.php */
